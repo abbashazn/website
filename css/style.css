@@ -1699,3 +1699,10 @@ video {
     display: flex;
   }
 }
+
+/* HubSpot quote form embed: fill the quote card container and reserve space while loading */
+#quote-card .hs-form-frame {
+  width: 100%;
+  max-width: 100%;
+  min-height: 320px;
+}
