@@ -1706,3 +1706,49 @@ video {
   max-width: 100%;
   min-height: 320px;
 }
+
+/* Only reserve loading space until HubSpot injects the form, so the overlay
+   below always lines up with the bottom of the rendered form */
+#quote-card .hs-form-frame:has(*) {
+  min-height: 0;
+}
+
+/* HubSpot branding bar cover: a white overlay pinned to the bottom of the form
+   wrapper. Because it is anchored with bottom: 0, it follows the form as its
+   height changes (validation messages, multi-step, resizing). */
+#quote-card .hs-branding-cover-wrap {
+  position: relative;
+  --hs-branding-height: 48px;
+  --hs-wrap-padding: 1rem;   /* matches p-space-md on the wrapper */
+  --hs-wrap-radius: 0.25rem; /* matches rounded-lg on the wrapper */
+}
+
+#quote-card .hs-branding-cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--hs-branding-height) + var(--hs-wrap-padding));
+  /* Same white as the quote card (bg-surface-container-lowest) */
+  background-color: rgb(255 255 255);
+  z-index: 2;
+}
+
+/* Restore the wrapper's rounded bottom edge just above the white cover */
+#quote-card .hs-branding-cover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--hs-wrap-radius);
+  background-color: rgb(239 244 255); /* bg-surface-container-low */
+  border-radius: 0 0 var(--hs-wrap-radius) var(--hs-wrap-radius);
+}
+
+/* Narrow screens: the branding text can wrap onto two lines */
+@media (max-width: 480px) {
+  #quote-card .hs-branding-cover-wrap {
+    --hs-branding-height: 64px;
+  }
+}
